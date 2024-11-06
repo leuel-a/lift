@@ -1,9 +1,14 @@
 require('dotenv').config()
 
-import app from ".";
+import app from '.'
+import env from './utils/env'
+import { connect } from './lib/db'
+import logger from './utils/logger'
 
-const PORT = process.env.PORT || 5000
+// listen on the specified port for the applicaiton
+app.listen(env.PORT, async () => {
+  // connect to the database
+  await connect()
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  logger.info(`Server running on port ${env.PORT}`)
 })
