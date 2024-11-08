@@ -1,10 +1,22 @@
 import { Router } from 'express'
-import { registerUserSchema } from './schemas/users.schemas'
+import { registerUserSchema, loginUserSchema } from './schemas/auth.schemas'
 import validateResource from './middlewares/validateResource'
-import { registerUserHandler } from './handlers/auth.handlers'
+import {
+  registerUserHandler,
+  loginUserHandler,
+  getAuthenticatedUserHandler,
+} from './handlers/auth.handlers'
+import passport from 'passport'
 
 const router = Router()
 
-router.post('/users', validateResource(registerUserSchema), registerUserHandler)
+// auth route
+router.post('/auth/register', validateResource(registerUserSchema), registerUserHandler)
+router.post('/auth/login', validateResource(loginUserSchema), loginUserHandler)
+router.get(
+  '/auth/me',
+  passport.authenticate('jwt', { session: false }),
+  getAuthenticatedUserHandler,
+)
 
 export default router

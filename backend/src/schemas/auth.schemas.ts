@@ -10,15 +10,12 @@ export const registerUserSchema = z.object({
   }),
 })
 
-// update user schema
-export const updateUserSchema = z.object({
+export const loginUserSchema = z.object({
   body: z.object({
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    gender: z.string().optional(),
-    phoneNumber: z.string().optional()
-  })
+    email: z.string({ message: 'Email is required' }).email({ message: 'Email is not valid' }),
+    password: z.string({ message: 'Password is required' }),
+  }),
 })
 
-export type UpdateUserType = z.infer<typeof updateUserSchema>
+export type LoginUserType = z.infer<typeof loginUserSchema>
 export type RegisterUserType = z.infer<typeof registerUserSchema>

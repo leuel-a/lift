@@ -1,12 +1,15 @@
 import mongoose from 'mongoose'
 
-export interface IUser extends Document {
+export interface IUser {
   firstName?: string
   lastName?: string
   gender?: string
   phoneNumber?: string
   email: string
   password: string
+}
+
+export interface UserDocument extends IUser, Document {
   createdAt: Date
   updatedAt: Date
 }
@@ -14,30 +17,30 @@ export interface IUser extends Document {
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: false
+    required: false,
   },
   lastName: {
     type: String,
-    required: false
+    required: false,
   },
   gender: {
     type: String,
-    required: false
+    required: false,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   phoneNumber: {
     type: String,
-    required: false
+    required: false,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
-const UserModel = mongoose.model<IUser>('User', UserSchema)
+const UserModel = mongoose.model<UserDocument>('User', UserSchema)
 export default UserModel

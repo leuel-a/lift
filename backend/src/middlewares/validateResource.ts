@@ -10,6 +10,7 @@ const validateResource =
         body: req.body,
         params: req.params,
       })
+      next()
     } catch (error) {
       const e = transformZodErrors(error as ZodError)
       res.status(400).json(e)
