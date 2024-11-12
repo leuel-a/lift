@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { AxiosResponse, AxiosError } from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,14 +20,15 @@ import { Button } from '@/components/ui/button'
 import { ValidationError } from '@/services/apiTypes'
 import logo from './assets/lift-logo.png'
 import {
-  LoginResponseSuccess,
   loginUser,
   LoginResponseError,
+  LoginResponseSuccess,
 } from './services/authService'
 import { LoginUserType, loginUserSchema } from './validation/authSchema'
 
 export default function App() {
   const { toast } = useToast()
+  const navigate = useNavigate()
   const form = useForm<LoginUserType>({
     resolver: zodResolver(loginUserSchema),
   })
@@ -50,6 +52,8 @@ export default function App() {
           variant: 'default',
           description: 'Login Successful',
         })
+
+        navigate('/dashboard')
       },
       onError: error => {
         const { response } = error
@@ -78,7 +82,7 @@ export default function App() {
   }
 
   return (
-    <div className="font-epilogue text-rich-black flex h-screen flex-col items-center justify-center">
+    <div className="flex h-screen flex-col items-center justify-center font-epilogue text-rich-black">
       <div className="mb-6 w-16 rounded-full">
         <img src={logo} alt="" className="rounded-full" />
       </div>
@@ -124,14 +128,14 @@ export default function App() {
             )}
           />
           {form.formState.errors.root && (
-            <div className="text-red-500 text-sm">
+            <div className="text-sm text-red-500">
               {form.formState.errors.root.message}
             </div>
           )}
           <Button disabled={isLoginUserPending} className="h-10 w-full">
             Login
           </Button>
-          <p className="text-yinmn-blue text-center text-sm">
+          <p className="text-center text-sm text-yinmn-blue">
             Please contact your Administrator for any assistance
           </p>
         </form>
