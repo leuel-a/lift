@@ -135,7 +135,7 @@ export default function App() {
           <Button disabled={isLoginUserPending} className="h-10 w-full">
             Login
           </Button>
-          <p className="text-center text-sm text-yinmn-blue">
+          <p className="text-center text-sm text-gray-500">
             Please contact your Administrator for any assistance
           </p>
         </form>

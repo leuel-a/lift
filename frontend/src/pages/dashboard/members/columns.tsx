@@ -1,5 +1,9 @@
-import { Member } from '@/types'
+import { cn } from '@/lib/utils'
 import { ColumnDef } from '@tanstack/react-table'
+
+// components and types
+import { Member } from '@/types'
+import { Badge } from '@/components/ui/badge'
 
 export const columns: ColumnDef<Member>[] = [
   {
@@ -25,5 +29,9 @@ export const columns: ColumnDef<Member>[] = [
   {
     accessorKey: 'active',
     header: 'Active',
+    cell: ({ row }) => {
+      const text = row.getValue('active') ? 'Active' : 'Not Active'
+      return <Badge className={cn(row.getValue('active') === false && 'bg-slate-500')}>{text}</Badge>
+    },
   },
 ]
