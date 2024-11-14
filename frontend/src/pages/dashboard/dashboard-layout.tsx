@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/sidebar'
 import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
 
-export default function Dashboard() {
+export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <DashboardSidebar className="mt-4 pl-2" />

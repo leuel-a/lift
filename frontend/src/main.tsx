@@ -6,8 +6,9 @@ import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Providers from './providers.tsx'
 import { Toaster } from '@/components/ui/toaster'
-import Dashboard from './pages/dashboard/layout.tsx'
+import DashboardLayout from './pages/dashboard/dashboard-layout.tsx'
 import Lockers from './pages/dashboard/lockers.tsx'
+import Members from './pages/dashboard/members/members.tsx'
 
 const router = createBrowserRouter([
   {
@@ -16,11 +17,15 @@ const router = createBrowserRouter([
   },
   {
     path: 'dashboard',
-    element: <Dashboard />,
+    element: <DashboardLayout />,
     children: [
       {
         path: 'lockers',
         element: <Lockers />,
+      },
+      {
+        path: 'members',
+        element: <Members />,
       },
     ],
   },

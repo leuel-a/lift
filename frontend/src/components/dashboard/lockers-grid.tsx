@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import LockersGridItem from './lockers-grid-item'
 
-// constants
-
 export default function LockersGrid() {
   const [lockerCount] = useState(10)
   return (

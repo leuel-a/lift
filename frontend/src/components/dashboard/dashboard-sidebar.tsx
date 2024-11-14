@@ -8,13 +8,18 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { Link } from 'react-router-dom'
-import { Lock, LayoutDashboardIcon } from 'lucide-react'
+import { Lock, LayoutDashboardIcon, Users2Icon } from 'lucide-react'
 
 const items = [
   {
     title: 'Dashboard',
     url: '/dashboard',
     icon: LayoutDashboardIcon,
+  },
+  {
+    title: 'Members',
+    url: '/dashboard/members',
+    icon: Users2Icon
   },
   {
     title: 'Lockers',
