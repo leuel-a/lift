@@ -2,9 +2,14 @@ import { parseISO } from 'date-fns'
 import createHttpError from 'http-errors'
 import { Request, Response, NextFunction } from 'express'
 
-import { createMember, findManyMembers, findMemberById } from '../services/members.services'
-import { CreateMemberType, GetMemberType } from '../schemas/members.schemas'
 import logger from '../utils/logger'
+import {
+  createMember,
+  findManyMembers,
+  findMemberById,
+  findMemberByIdAndUpdate,
+} from '../services/members.services'
+import type { CreateMemberType, GetMemberType, UpdateMemberType } from '../schemas/members.schemas'
 
 export const createMemberHandler = async (
   req: Request<unknown, unknown, CreateMemberType['body']>,
@@ -61,6 +66,37 @@ export const getManyMembersHandler = async (
 
     res.status(200).send(members)
   } catch (error) {
+    next(error)
+  }
+}
+
+export const updateMemberHandler = async (
+  req: Request<UpdateMemberType['params'], unknown, UpdateMemberType['body']>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { id } = req.params
+    const { membershipStartDate, ...body } = req.body
+
+    // TODO: handle the unwanted member details update
+    const member = await findMemberByIdAndUpdate(
+      id,
+      {
+        $set: {
+          ...(membershipStartDate && { membershipStartDate: new Date(membershipStartDate) }),
+          ...body,
+        },
+      },
+      {
+        new: true,
+        lean: true,
+        runValidators: true,
+      },
+    )
+    res.status(200).json(member)
+  } catch (error) {
+    logger.error(error)
     next(error)
   }
 }

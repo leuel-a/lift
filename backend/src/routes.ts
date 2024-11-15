@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createMemberSchema, getMemberSchema } from './schemas/members.schemas'
+import { createMemberSchema, getMemberSchema, updateMemberSchema } from './schemas/members.schemas'
 import { registerUserSchema, loginUserSchema } from './schemas/auth.schemas'
 import validateResource from './middlewares/validateResource'
 import {
@@ -12,6 +12,7 @@ import {
   createMemberHandler,
   getManyMembersHandler,
   getMemberHandler,
+  updateMemberHandler,
 } from './handlers/members.handlers'
 
 const router = Router()
@@ -39,5 +40,11 @@ router.get(
   getMemberHandler,
 )
 router.get('/members', passport.authenticate('jwt', { session: false }), getManyMembersHandler)
+router.put(
+  '/members/:id',
+  validateResource(updateMemberSchema),
+  passport.authenticate('jwt', { session: false }),
+  updateMemberHandler,
+)
 
 export default router

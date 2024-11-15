@@ -1,4 +1,4 @@
-import { FilterQuery, QueryOptions } from 'mongoose'
+import { FilterQuery, Query, QueryOptions, UpdateQuery } from 'mongoose'
 import MemberModel, { IMember, MemberDocument } from '../models/members.model'
 
 /**
@@ -30,4 +30,18 @@ export const findManyMembers = async (
   options: QueryOptions<MemberDocument> = { lean: true },
 ) => {
   return MemberModel.find(query, null, options)
+}
+
+/**
+ * Finds a member by id and update the member
+ * @param id - id of the member
+ * @param quert - update query similar to mongoose.UpdateQuery
+ * @returns - the updated member
+ */
+export const findMemberByIdAndUpdate = (
+  id: string,
+  query: UpdateQuery<MemberDocument>,
+  options: QueryOptions<MemberDocument> = { lean: true },
+) => {
+  return MemberModel.findByIdAndUpdate(id, query, options)
 }

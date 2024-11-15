@@ -36,5 +36,19 @@ export const getMemberSchema = z.object({
   params: z.object({ ...params }),
 })
 
+export const updateMemberSchema = z.object({
+  body: z.object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    email: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    membershipStartDate: z.string().optional(),
+    membershipType: z.string().optional(),
+    active: z.boolean().optional(),
+  }),
+  params: z.object({ ...params }),
+})
+
 export type GetMemberType = z.infer<typeof getMemberSchema>
+export type UpdateMemberType = z.infer<typeof updateMemberSchema>
 export type CreateMemberType = z.infer<typeof createMemberSchema>
