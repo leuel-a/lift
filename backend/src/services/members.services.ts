@@ -35,7 +35,8 @@ export const findManyMembers = async (
 /**
  * Finds a member by id and update the member
  * @param id - id of the member
- * @param quert - update query similar to mongoose.UpdateQuery
+ * @param query - update query similar to mongoose.UpdateQuery
+ * @param options - query options for the members to be retrieved from db
  * @returns - the updated member
  */
 export const findMemberByIdAndUpdate = (
@@ -44,4 +45,13 @@ export const findMemberByIdAndUpdate = (
   options: QueryOptions<MemberDocument> = { lean: true },
 ) => {
   return MemberModel.findByIdAndUpdate(id, query, options)
+}
+
+/**
+ * Counts the members based on the specified conditions
+ * @param query - query filter for the members
+ * @returns - the number of members
+ */
+export const countMembers = async (query: FilterQuery<MemberDocument>) => {
+  return MemberModel.countDocuments(query)
 }

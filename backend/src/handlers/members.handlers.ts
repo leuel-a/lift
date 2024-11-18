@@ -1,15 +1,21 @@
 import { parseISO } from 'date-fns'
-import createHttpError from 'http-errors'
-import { Request, Response, NextFunction } from 'express'
-
 import logger from '../utils/logger'
+import createHttpError from 'http-errors'
+import { Request, Response, NextFunction, RequestHandler } from 'express'
+
+import type {
+  CreateMemberType,
+  GetMemberType,
+  UpdateMemberType,
+  GetManyMembersType,
+} from '../schemas/members.schemas'
 import {
   createMember,
   findManyMembers,
   findMemberById,
   findMemberByIdAndUpdate,
+  countMembers,
 } from '../services/members.services'
-import type { CreateMemberType, GetMemberType, UpdateMemberType } from '../schemas/members.schemas'
 
 export const createMemberHandler = async (
   req: Request<unknown, unknown, CreateMemberType['body']>,
@@ -51,20 +57,43 @@ export const getMemberHandler = async (
 
     res.status(200).json(member)
   } catch (error) {
-    next(createHttpError(500, 'Server error please try again'))
+    next(createHttpError(500, 'server error please try again'))
   }
 }
 
-export const getManyMembersHandler = async (
-  req: Request<unknown, unknown, unknown>,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getManyMembersHandler: RequestHandler<
+  unknown,
+  unknown,
+  unknown,
+  GetManyMembersType['query']
+> = async (req, res, next) => {
   try {
-    // TODO: add pagination to the members
-    const members = await findManyMembers({})
+    // get the current page and limit for the current query
+    const page = req.query.page ?? 1
+    const limit = req.query.limit ?? 10
+    const asc = req.query.asc ? req.query.asc === 'true' : false
+    const active = req.query.active ? req.query.active === 'true' : undefined
 
-    res.status(200).send(members)
+    // get the members with the count for the current query
+    const [members, totalCount] = await Promise.all([
+      findManyMembers(
+        { ...(active && { active }) },
+        {
+          lean: true,
+          limit,
+          skip: (page - 1) * limit,
+          sort: { createdAt: asc === false ? -1 : 1 },
+        },
+      ),
+      countMembers({ ...(active && { active }) }),
+    ])
+
+    res.status(200).send({
+      data: members,
+      page,
+      limit,
+      totalCount,
+    })
   } catch (error) {
     next(error)
   }

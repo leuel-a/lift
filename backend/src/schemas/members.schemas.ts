@@ -49,6 +49,16 @@ export const updateMemberSchema = z.object({
   params: z.object({ ...params }),
 })
 
+export const getManyMembersSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().optional(),
+    limit: z.coerce.number().optional(),
+    active: z.string().optional(),
+    asc: z.string().optional()
+  })
+})
+
 export type GetMemberType = z.infer<typeof getMemberSchema>
 export type UpdateMemberType = z.infer<typeof updateMemberSchema>
 export type CreateMemberType = z.infer<typeof createMemberSchema>
+export type GetManyMembersType = z.infer<typeof getManyMembersSchema>
