@@ -5,4 +5,11 @@ export interface ValidationError {
   message: string
 }
 
+export interface PaginatedResponse<TData> {
+  data: TData,
+  page: number
+  limit: number
+  totalCount: number
+}
+
 export type MembersResponse = Member[]

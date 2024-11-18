@@ -4,8 +4,20 @@ import { ColumnDef } from '@tanstack/react-table'
 // components and types
 import { Member } from '@/types'
 import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export const columns: ColumnDef<Member>[] = [
+  {
+    id: 'select',
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={value => row.toggleSelected(!!value)}
+      />
+    ),
+    enableSorting: true,
+    enableHiding: true,
+  },
   {
     accessorKey: 'firstName',
     header: 'First Name',
@@ -31,7 +43,17 @@ export const columns: ColumnDef<Member>[] = [
     header: 'Active',
     cell: ({ row }) => {
       const text = row.getValue('active') ? 'Active' : 'Not Active'
-      return <Badge className={cn(row.getValue('active') === false && 'bg-slate-500')}>{text}</Badge>
+      return (
+        <Badge
+          className={cn(
+            'select-none',
+            row.getValue('active') === false &&
+              'bg-slate-500 hover:bg-slate-500/80',
+          )}
+        >
+          {text}
+        </Badge>
+      )
     },
   },
 ]

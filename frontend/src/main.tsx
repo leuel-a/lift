@@ -1,14 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
 import Providers from './providers.tsx'
 import { Toaster } from '@/components/ui/toaster'
+
+import LockersPage from './pages/dashboard/lockers.tsx'
+import MembersPage from './pages/dashboard/members/page.tsx'
+import AddMemberPage from './pages/dashboard/members/add/page.tsx'
 import DashboardLayout from './pages/dashboard/dashboard-layout.tsx'
-import Lockers from './pages/dashboard/lockers.tsx'
-import Members from './pages/dashboard/members/members.tsx'
 
 const router = createBrowserRouter([
   {
@@ -21,11 +23,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'lockers',
-        element: <Lockers />,
+        element: <LockersPage />,
       },
       {
         path: 'members',
-        element: <Members />,
+        element: <MembersPage />,
+      },
+      {
+        path: 'members/add',
+        element: <AddMemberPage />,
       },
     ],
   },
