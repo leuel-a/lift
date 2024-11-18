@@ -1,4 +1,4 @@
-import { FilterQuery, Query, QueryOptions, UpdateQuery } from 'mongoose'
+import { FilterQuery, QueryOptions, UpdateQuery } from 'mongoose'
 import MemberModel, { IMember, MemberDocument } from '../models/members.model'
 
 /**
