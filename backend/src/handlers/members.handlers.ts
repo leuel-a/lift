@@ -3,11 +3,10 @@ import logger from '../utils/logger'
 import createHttpError from 'http-errors'
 import { Request, Response, NextFunction, RequestHandler } from 'express'
 
-import type {
+import {
   CreateMemberType,
   GetMemberType,
   UpdateMemberType,
-  GetManyMembersType,
 } from '../schemas/members.schemas'
 import {
   createMember,
@@ -61,16 +60,12 @@ export const getMemberHandler = async (
   }
 }
 
-export const getManyMembersHandler: RequestHandler<
-  unknown,
-  unknown,
-  unknown,
-  GetManyMembersType['query']
-> = async (req, res, next) => {
+export const getManyMembersHandler: RequestHandler = async (req, res, next) => {
   try {
     // get the current page and limit for the current query
-    const page = req.query.page ?? 1
-    const limit = req.query.limit ?? 10
+    const page = req.query.page ? parseInt(req.query.page as string) : 1
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10
+
     const asc = req.query.asc ? req.query.asc === 'true' : false
     const active = req.query.active ? req.query.active === 'true' : undefined
 
