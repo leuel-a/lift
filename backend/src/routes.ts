@@ -1,5 +1,10 @@
 import { Router } from 'express'
-import {createMemberSchema, getManyMembersSchema, getMemberSchema, updateMemberSchema} from './schemas/members.schemas'
+import {
+  createMemberSchema,
+  getManyMembersSchema,
+  getMemberSchema,
+  updateMemberSchema,
+} from './schemas/members.schemas'
 import { registerUserSchema, loginUserSchema } from './schemas/auth.schemas'
 import validateResource from './middlewares/validateResource'
 import {
@@ -14,10 +19,15 @@ import {
   getMemberHandler,
   updateMemberHandler,
 } from './handlers/members.handlers'
+import {
+  assignLockerHandler,
+  freeLockerHandler,
+  getManyLockerHandler,
+} from './handlers/lockers.handlers'
 
 const router = Router()
 
-// auth route
+//#region auth routes
 router.post('/auth/register', validateResource(registerUserSchema), registerUserHandler)
 router.post('/auth/login', validateResource(loginUserSchema), loginUserHandler)
 router.get(
@@ -25,8 +35,9 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   getAuthenticatedUserHandler,
 )
+//#endregion
 
-// members routes
+//#region members routes
 router.post(
   '/members',
   validateResource(createMemberSchema),
@@ -39,12 +50,32 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   getMemberHandler,
 )
-router.get('/members', validateResource(getManyMembersSchema),passport.authenticate('jwt', { session: false }), getManyMembersHandler)
+router.get(
+  '/members',
+  validateResource(getManyMembersSchema),
+  passport.authenticate('jwt', { session: false }),
+  getManyMembersHandler,
+)
 router.put(
   '/members/:id',
   validateResource(updateMemberSchema),
   passport.authenticate('jwt', { session: false }),
   updateMemberHandler,
 )
+//#endregion
+
+//#region lockers routes
+router.get('/lockers', passport.authenticate('jwt', { session: false }), getManyLockerHandler)
+router.post(
+  '/lockers/:id/assign',
+  passport.authenticate('jwt', { session: false }),
+  assignLockerHandler,
+)
+router.post(
+  '/lockers/:id/free',
+  passport.authenticate('jwt', { session: false }),
+  freeLockerHandler,
+)
+//#endregion
 
 export default router
