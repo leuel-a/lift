@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Providers from './providers.tsx'
 import { Toaster } from '@/components/ui/toaster'
 
-import LockersPage from './pages/dashboard/lockers.tsx'
+import LockersPage from './pages/dashboard/lockers/page.tsx'
 import MembersPage from './pages/dashboard/members/page.tsx'
 import AddMemberPage from './pages/dashboard/members/add/page.tsx'
 import DashboardLayout from './pages/dashboard/dashboard-layout.tsx'

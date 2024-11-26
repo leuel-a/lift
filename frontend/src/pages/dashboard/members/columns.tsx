@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { format } from 'date-fns'
 import { ColumnDef } from '@tanstack/react-table'
 
 // components and types
@@ -37,6 +38,10 @@ export const columns: ColumnDef<Member>[] = [
   {
     accessorKey: 'membershipStartDate',
     header: 'Start Date',
+    // TODO: format the date to make it more readable
+    cell: ({ row }) => (
+      <div>{format(row.getValue('membershipStartDate'), 'PPP')}</div>
+    ),
   },
   {
     accessorKey: 'active',

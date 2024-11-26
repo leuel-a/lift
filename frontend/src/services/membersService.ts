@@ -2,13 +2,13 @@ import { apiClient } from './apiClient'
 import { QueryFunction, MutationFunction } from '@tanstack/react-query'
 
 // types
+import type { Member } from '@/types'
 import type { CreateMemberType } from '../validation/memberSchema'
 import type { MembersResponse, PaginatedResponse } from './apiTypes'
-import { Member } from '@/types'
 
 /**
  * Fetches a paginated list of members from the API.
-
+ *
  * @returns A promise that resolves to a paginated response containing members data.
  * @throws Will throw an error if the API request fails.
  */
@@ -24,6 +24,7 @@ export const fetchMembers: QueryFunction<
     limit: limit ? limit.toString() : '10',
   })
 
+  console.log(`/members?${searchParams.toString()}`)
   return (
     await apiClient.get<PaginatedResponse<MembersResponse>>(
       `/members?${searchParams.toString()}`,
@@ -36,9 +37,6 @@ export const fetchMembers: QueryFunction<
  *
  * @param input - The member data to be added. It includes all member details and the membership start date.
  * @returns The newly created member data.
- *
- * @template CreateMemberType - The type of the input data for creating a member.
- * @template Member - The type of the member data returned by the API.
  */
 export const addMember: MutationFunction<
   Member,
