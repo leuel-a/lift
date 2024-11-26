@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -27,34 +28,25 @@ const sections = [
   },
 ]
 
-export interface SectionSelectorProps {
-  section: string
-  setSection: (value: string) => void
-}
 
-export default function SectionSelector({
-  section,
-  setSection,
-}: SectionSelectorProps) {
+export default function SectionSelector() {
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const [open, setOpen] = React.useState<boolean>(false)
-  const [value, setValue] = React.useState<string>(section)
+  const [value, setValue] = React.useState<string>(searchParams.get('section') || 'Male')
 
   React.useEffect(() => {
-    setSection(value)
-  }, [value, setSection])
+    const params = new URLSearchParams(searchParams)
+    params.set('section', value)
+
+    setSearchParams(params)
+  }, [value, setSearchParams, searchParams])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value
-            ? sections.find(section => section.value === value)?.label
-            : 'Male'}
+        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+          {value ? sections.find(section => section.value === value)?.label : 'Male'}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -72,12 +64,7 @@ export default function SectionSelector({
                     setOpen(false)
                   }}
                 >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === framework.value ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
+                  <Check className={cn('mr-2 h-4 w-4', value === framework.value ? 'opacity-100' : 'opacity-0')} />
                   {framework.label}
                 </CommandItem>
               ))}

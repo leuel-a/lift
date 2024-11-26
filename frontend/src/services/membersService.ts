@@ -9,8 +9,7 @@ import type { MembersResponse, PaginatedResponse } from './apiTypes'
 /**
  * Fetches a paginated list of members from the API.
  *
- * @returns A promise that resolves to a paginated response containing members data.
- * @throws Will throw an error if the API request fails.
+ * @returns - A promise that resolves to a paginated response containing members data.
  */
 export const fetchMembers: QueryFunction<
   PaginatedResponse<MembersResponse>,
@@ -24,7 +23,6 @@ export const fetchMembers: QueryFunction<
     limit: limit ? limit.toString() : '10',
   })
 
-  console.log(`/members?${searchParams.toString()}`)
   return (
     await apiClient.get<PaginatedResponse<MembersResponse>>(
       `/members?${searchParams.toString()}`,

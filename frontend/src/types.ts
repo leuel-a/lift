@@ -11,3 +11,12 @@ export interface Member {
   updatedAt: string; // Use Date if you want to parse it as a Date object
   __v: number;
 }
+
+export interface Locker {
+  _id: string
+  lockerNumber: string
+  section: string
+  isTaken: boolean
+  createdAt: string
+  updatedAt: string
+}
