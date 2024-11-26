@@ -1,5 +1,5 @@
-import { createLocker, CreateLockerInput } from '../services/lockers.services'
 import logger from './logger'
+import { createLocker, CreateLockerInput } from '../services/lockers.services'
 
 /**
  * Seeds the database with initial locker data.
@@ -23,6 +23,7 @@ export async function seedLockers() {
 
   try {
     await createLocker(lockers)
+    logger.info('Success: Lockers seeded successfully')
   } catch (error) {
     logger.error(`Error seeding lockers: ${error}`)
     process.exit(1)

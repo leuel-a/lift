@@ -1,4 +1,4 @@
-import { QueryOptions, FilterQuery } from 'mongoose'
+import { QueryOptions, FilterQuery, RootFilterQuery } from 'mongoose'
 import LockerModel, { LockerDocument } from '../models/lockers.model'
 
 export type CreateLockerInput = Pick<LockerDocument, 'section' | 'isTaken'>
@@ -59,4 +59,14 @@ export const assignLocker = async (id: string) => {
  */
 export const freeLocker = async (id: string) => {
   return LockerModel.findByIdAndUpdate(id, { isTaken: false }, { new: true })
+}
+
+/**
+ * Counts the number of lockers that match the specified query.
+ *
+ * @param query - The filter criteria to apply when counting lockers.
+ * @returns The total number of lockers that match the query.
+ */
+export const countLockers = async (query: RootFilterQuery<LockerDocument>) => {
+  return LockerModel.countDocuments(query)
 }

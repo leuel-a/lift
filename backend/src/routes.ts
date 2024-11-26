@@ -24,6 +24,7 @@ import {
   freeLockerHandler,
   getManyLockerHandler,
 } from './handlers/lockers.handlers'
+import { getManyLockersSchema } from './schemas/lockers.schemas'
 
 const router = Router()
 
@@ -65,17 +66,18 @@ router.put(
 //#endregion
 
 //#region lockers routes
-router.get('/lockers', passport.authenticate('jwt', { session: false }), getManyLockerHandler)
-router.post(
+router.get(
+  '/lockers',
+  validateResource(getManyLockersSchema),
+  passport.authenticate('jwt', { session: false }),
+  getManyLockerHandler,
+)
+router.put(
   '/lockers/:id/assign',
   passport.authenticate('jwt', { session: false }),
   assignLockerHandler,
 )
-router.post(
-  '/lockers/:id/free',
-  passport.authenticate('jwt', { session: false }),
-  freeLockerHandler,
-)
+router.put('/lockers/:id/free', passport.authenticate('jwt', { session: false }), freeLockerHandler)
 //#endregion
 
 export default router

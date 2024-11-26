@@ -18,7 +18,7 @@ const lockerSchema = new Schema(
       default: false,
     },
     section: {
-      enum: ['Male', 'Women'],
+      enum: ['Male', 'Female'],
       type: String,
       required: true
     },
