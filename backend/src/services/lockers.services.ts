@@ -1,7 +1,7 @@
 import { QueryOptions, FilterQuery, RootFilterQuery } from 'mongoose'
 import LockerModel, { LockerDocument } from '../models/lockers.model'
 
-export type CreateLockerInput = Pick<LockerDocument, 'section' | 'isTaken'>
+export type CreateLockerInput = Pick<LockerDocument, 'section' | 'isTaken' | 'lockerNumber'>
 
 /**
  * Creates a new locker with the provided input data.

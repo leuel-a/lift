@@ -31,7 +31,7 @@ export const getManyLockerHandler: RequestHandler<
   const lockers = await findManyLockers({
     ...(section && { section }),
     ...(isTaken && { isTaken }),
-  })
+  }, { sort: { lockerNumber: 1 } })
   res.status(200).send(lockers)
 }
 

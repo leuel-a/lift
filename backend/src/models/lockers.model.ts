@@ -2,6 +2,7 @@ import { model, Schema, Document } from 'mongoose'
 
 interface ILocker {
   isTaken?: boolean
+  lockerNumber: string
   section: "Male" | "Female"
 }
 
@@ -17,6 +18,10 @@ const lockerSchema = new Schema(
       required: false,
       default: false,
     },
+    lockerNumber: {
+      type: String,
+      required: true,
+    },
     section: {
       enum: ['Male', 'Female'],
       type: String,
@@ -26,5 +31,5 @@ const lockerSchema = new Schema(
   { timestamps: true },
 )
 
-const LockerModel = model('Locker', lockerSchema)
+const LockerModel = model<LockerDocument>('Locker', lockerSchema)
 export default LockerModel

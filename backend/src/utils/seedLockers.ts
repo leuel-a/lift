@@ -9,15 +9,19 @@ export async function seedLockers() {
 
   // populate male lockers section
   for (let i = 0; i < 50; i++) {
+    const currLockerNumber = i + 1
     lockers.push({
       section: 'Male',
+      lockerNumber: `M${currLockerNumber.toString().padStart(3, '0')}`
     })
   }
 
   // populate female lockers section
   for (let i = 0; i < 50; i++) {
+    const currLockerNumber = i + 1
     lockers.push({
       section: 'Female',
+      lockerNumber: `F${currLockerNumber.toString().padStart(3, '0')}`
     })
   }
 
