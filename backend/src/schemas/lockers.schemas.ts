@@ -6,7 +6,7 @@ const query = {
 }
 
 const params = {
-  id: z.string({ message: 'Locker Id is required' }),
+  id: z.string({ message: 'Locker id is required' }),
 }
 
 export const getManyLockersSchema = z.object({
@@ -21,12 +21,19 @@ export const assignLockerSchema = z.object({
   }),
 })
 
+export const getSingleLockerSchema = z.object({
+  params: z.object({
+    ...params,
+  }),
+})
+
 export const freeLockerSchema = z.object({
   params: z.object({
-    ...params
-  })
+    ...params,
+  }),
 })
 
 export type FreeLockerType = z.infer<typeof freeLockerSchema>
 export type AssignLockerType = z.infer<typeof assignLockerSchema>
 export type GetManyLockersType = z.infer<typeof getManyLockersSchema>
+export type GetSingleLockerType = z.infer<typeof getSingleLockerSchema>

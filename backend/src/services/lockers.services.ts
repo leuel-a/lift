@@ -20,7 +20,7 @@ export const createLocker = async (input: CreateLockerInput | CreateLockerInput[
  * @param options - Optional query options.
  * @returns A promise that resolves to the locker document if found, or null if not found.
  */
-export const findLocker = async (
+export const findLockerById = async (
   id: string,
   options: QueryOptions<LockerDocument> = { lean: true },
 ) => {
