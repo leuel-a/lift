@@ -7,6 +7,7 @@ const payload = {
   email: z
     .string({ message: 'email is required' })
     .email({ message: 'please provide a valid email address' }),
+  gender: z.string({message: 'gender is required'}),
   phoneNumber: z.string({ message: 'phone number is required' }),
   membershipType: z.union([z.literal('monthly'), z.literal('quarterly'), z.literal('yearly')], {
     errorMap: (issue, _ctx) => {
@@ -41,6 +42,7 @@ export const updateMemberSchema = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     email: z.string().optional(),
+    gender: z.string().optional(),
     phoneNumber: z.string().optional(),
     membershipStartDate: z.string().optional(),
     membershipType: z.string().optional(),
@@ -51,8 +53,8 @@ export const updateMemberSchema = z.object({
 
 export const getManyMembersSchema = z.object({
   query: z.object({
-    page: z.coerce.number().optional(),
-    limit: z.coerce.number().optional(),
+    page: z.string().optional(),
+    limit: z.string().optional(),
     active: z.string().optional(),
     asc: z.string().optional()
   })

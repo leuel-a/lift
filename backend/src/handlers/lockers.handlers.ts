@@ -24,12 +24,11 @@ export const getManyLockerHandler: RequestHandler<
   unknown,
   GetManyLockersType['query']
 > = async (req, res, next) => {
-  const { section } = req.query
   const isTaken =
     req.query.isTaken === 'true' ? true : req.query.isTaken === 'false' ? false : undefined
 
   const lockers = await findManyLockers({
-    ...(section && { section }),
+    ...(req.query.section && { section: req.query.section }),
     ...(isTaken !== undefined && { isTaken }),
   }, { sort: { lockerNumber: 1 } })
   res.status(200).send(lockers)

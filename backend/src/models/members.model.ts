@@ -5,6 +5,7 @@ export interface IMember {
   lastName: string
   email: string
   phoneNumber: string
+  gender: string
   membershipType: 'monthly' | 'quarterly' | 'yearly'
   membershipStartDate: Date
   membershipValidUntil?: Date
@@ -30,6 +31,10 @@ const memberSchema = new Schema(
     membershipValidUntil: {
       type: String,
       required: false,
+    },
+    gender: {
+      type: String,
+      enum: ['Male', 'Female']
     },
     active: {
       type: Boolean,
