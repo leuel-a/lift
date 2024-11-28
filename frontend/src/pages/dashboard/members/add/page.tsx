@@ -1,11 +1,14 @@
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import { useForm } from 'react-hook-form'
+import { useToast } from '@/hooks/use-toast'
+import { useNavigate, Link } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { addMember } from '@/services/membersService'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createMemberSchema, CreateMemberType } from '@/validation/memberSchema'
-import { useNavigate } from 'react-router-dom'
-import { useToast } from '@/hooks/use-toast'
-import { useMutation } from '@tanstack/react-query'
+
+//region component imports
 import {
   Form,
   FormControl,
@@ -15,7 +18,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import DashboardHeader from '@/components/dashboard/dashboard-header'
 import {
   Select,
   SelectContent,
@@ -30,8 +32,8 @@ import {
 } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { CalendarIcon } from 'lucide-react'
-import { addMember } from '@/services/membersService'
+import { CalendarIcon, Undo2 } from 'lucide-react'
+//endregion
 
 export default function Page() {
   const { toast } = useToast()
@@ -54,17 +56,22 @@ export default function Page() {
   })
   const handleSubmit = async (values: CreateMemberType) => mutate(values)
   return (
-    <div className="max-w-[80rem]">
-      <DashboardHeader title="Add Member" />
+    <div className="">
+      <div className="flex gap-2">
+        <Link to="/dashboard/members">
+          <Undo2 />
+        </Link>
+        <h1 className="text-2xl">Add Member</h1>
+      </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 pl-8 mt-4 max-w-[80rem]">
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
             <FormField
               name="firstName"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel className="font-normal">First Name</FormLabel>
                   <FormControl>
                     <Input {...field} type="text" className="" placeholder="Leuel" />
                   </FormControl>
@@ -77,7 +84,7 @@ export default function Page() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel className="font-normal">Last Name</FormLabel>
                   <FormControl>
                     <Input {...field} type="text" className="" placeholder="Gebreselassie" />
                   </FormControl>
@@ -90,7 +97,7 @@ export default function Page() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="font-normal">Email</FormLabel>
                   <FormControl>
                     <Input {...field} type="text" className="" placeholder="leuel.gebreselassie@gmail.com" />
                   </FormControl>
@@ -103,7 +110,7 @@ export default function Page() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel className="font-normal">Phone Number</FormLabel>
                   <FormControl>
                     <Input {...field} type="text" />
                   </FormControl>
@@ -116,7 +123,7 @@ export default function Page() {
               name="membershipType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Membership Type</FormLabel>
+                  <FormLabel className="font-normal">Membership Type</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -138,7 +145,7 @@ export default function Page() {
               name="membershipStartDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-0.5 pt-2">
-                  <FormLabel>Membership Start Date</FormLabel>
+                  <FormLabel className="font-normal">Membership Start Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -165,7 +172,9 @@ export default function Page() {
               )}
             />
           </div>
-          <Button className="w-96">Submit</Button>
+          <div>
+            <Button className="w-96 bg-indigo-600 hover:bg-indigo-700/90">Submit</Button>
+          </div>
         </form>
       </Form>
     </div>

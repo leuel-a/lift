@@ -3,6 +3,7 @@ export interface Member {
   firstName: string;
   lastName: string;
   email: string;
+  gender: string;
   phoneNumber: string;
   membershipType: string;
   membershipStartDate: string; // Use Date if you want to parse it as a Date object

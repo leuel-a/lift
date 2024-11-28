@@ -60,7 +60,7 @@ export default function LockersGridItem({ locker: { _id: id, lockerNumber, isTak
           }}
           className={cn(
             'cursor-pointer',
-            isTaken ? 'bg-indigo-950/80 hover:bg-indigo-950/60' : 'bg-teal-600 hover:bg-teal-600/80',
+            isTaken ? 'bg-indigo-700/80 hover:bg-indigo-700/60' : 'bg-teal-600 hover:bg-teal-600/80',
           )}
         >
           {isTaken ? 'taken' : 'free'}

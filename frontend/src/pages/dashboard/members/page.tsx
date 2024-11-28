@@ -5,7 +5,6 @@ import { fetchMembers } from '@/services/membersService'
 // components
 import { columns } from './columns'
 import MembersTable from './members-table'
-import DashboardHeader from '@/components/dashboard/dashboard-header'
 import AddMemberButton from '@/components/dashboard/members/add-member-button'
 import MembersPagination from '@/components/dashboard/members/member-pagination'
 import { FilterMembers } from '@/components/dashboard/members/filter-members'
@@ -26,7 +25,7 @@ export default function Page() {
   return (
     <>
       <div className="flex justify-between">
-        <DashboardHeader title="Members" />
+        <h2 className="text-md lg:text-xl">Members</h2>
         <div className="flex gap-2">
           {/* Filter Members, by search and toggling */}
           <FilterMembers />

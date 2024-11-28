@@ -60,7 +60,7 @@ export default function Page() {
 
               setSearchParams(params)
             }}
-            className={cn(isTaken === 'true' && 'bg-indigo-950 hover:bg-indigo-950/80')}
+            className={cn(isTaken === 'true' && 'bg-indigo-600 hover:bg-indigo-700/80')}
             variant={isTaken === 'true' ? 'default' : 'outline'}
           >
             Taken

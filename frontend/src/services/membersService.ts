@@ -13,21 +13,18 @@ import type { MembersResponse, PaginatedResponse } from './apiTypes'
  */
 export const fetchMembers: QueryFunction<
   PaginatedResponse<MembersResponse>,
-  [string, { page: number; limit?: number }]
+  [string, { page: number; limit?: number; search?: string }]
 > = async ({ queryKey }): Promise<PaginatedResponse<MembersResponse>> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, { page, limit }] = queryKey
+  const [_, { page, limit, search }] = queryKey
 
   const searchParams = new URLSearchParams({
     page: page.toString(),
     limit: limit ? limit.toString() : '10',
+    search: search || '',
   })
 
-  return (
-    await apiClient.get<PaginatedResponse<MembersResponse>>(
-      `/members?${searchParams.toString()}`,
-    )
-  ).data
+  return (await apiClient.get<PaginatedResponse<MembersResponse>>(`/members?${searchParams.toString()}`)).data
 }
 
 /**
