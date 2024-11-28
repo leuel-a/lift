@@ -8,11 +8,13 @@ import LockersGrid from '@/components/dashboard/lockers/lockers-grid.tsx'
 import SectionSelector from '@/components/dashboard/lockers/section-selector.tsx'
 
 export default function Page() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const isTaken = searchParams.get('isTaken') || ''
   const section = searchParams.get('section') || 'Male'
 
   const { data: lockers } = useQuery({
-    queryKey: ['getLockers', { section }],
+    queryKey: ['getLockers', { section, isTaken }],
     queryFn: fetchLockers,
   })
 
@@ -26,9 +28,39 @@ export default function Page() {
           <SectionSelector />
         </div>
         <div className="flex gap-2">
-          <Button>All</Button>
-          <Button variant={'outline'}>Free</Button>
-          <Button variant={'outline'}>Taken</Button>
+          <Button
+            onClick={() => {
+              const params = new URLSearchParams(searchParams)
+              params.set('isTaken', '')
+
+              setSearchParams(params)
+            }}
+            variant={isTaken === '' ? 'default' : 'outline'}
+          >
+            All
+          </Button>
+          <Button
+            onClick={() => {
+              const params = new URLSearchParams(searchParams)
+              params.set('isTaken', 'false')
+
+              setSearchParams(params)
+            }}
+            variant={isTaken === 'false' ? 'default' : 'outline'}
+          >
+            Free
+          </Button>
+          <Button
+            onClick={() => {
+              const params = new URLSearchParams(searchParams)
+              params.set('isTaken', 'true')
+
+              setSearchParams(params)
+            }}
+            variant={isTaken === 'true' ? 'default' : 'outline'}
+          >
+            Taken
+          </Button>
         </div>
       </div>
       {lockers && <LockersGrid lockers={lockers} />}
