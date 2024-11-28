@@ -1,9 +1,6 @@
 import * as React from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Check, ChevronsUpDown } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'react-router-dom'
 import {
   Command,
   CommandEmpty,
@@ -16,6 +13,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { Check, ChevronsUpDown } from 'lucide-react'
 
 const sections = [
   {
@@ -31,7 +30,6 @@ const sections = [
 
 export default function SectionSelector() {
   const [searchParams, setSearchParams] = useSearchParams()
-
   const [open, setOpen] = React.useState<boolean>(false)
   const [value, setValue] = React.useState<string>(searchParams.get('section') || 'Male')
 

@@ -1,5 +1,5 @@
-import { useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
 import { fetchLockers } from '@/services/lockersService.ts'
 
 // component imports
@@ -11,7 +11,6 @@ export default function Page() {
   const [searchParams] = useSearchParams()
   const section = searchParams.get('section') || 'Male'
 
-  // queries
   const { data: lockers } = useQuery({
     queryKey: ['getLockers', { section }],
     queryFn: fetchLockers,
@@ -32,7 +31,7 @@ export default function Page() {
           <Button variant={'outline'}>Taken</Button>
         </div>
       </div>
-      <LockersGrid />
+      {lockers && <LockersGrid lockers={lockers} />}
     </main>
   )
 }
