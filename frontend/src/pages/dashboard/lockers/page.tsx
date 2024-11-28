@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { fetchLockers } from '@/services/lockersService.ts'
@@ -35,7 +36,8 @@ export default function Page() {
 
               setSearchParams(params)
             }}
-            variant={isTaken === '' ? 'default' : 'outline'}
+            variant={isTaken === '' ? 'outline' : 'ghost'}
+            className={cn(isTaken === '' ? 'border-indigo-950/80 bg-indigo-100 hover:bg-indigo-200/80' : '')}
           >
             All
           </Button>
@@ -46,6 +48,7 @@ export default function Page() {
 
               setSearchParams(params)
             }}
+            className={cn(isTaken === 'false' && 'bg-teal-600 hover:bg-teal-600/80')}
             variant={isTaken === 'false' ? 'default' : 'outline'}
           >
             Free
@@ -57,6 +60,7 @@ export default function Page() {
 
               setSearchParams(params)
             }}
+            className={cn(isTaken === 'true' && 'bg-indigo-950 hover:bg-indigo-950/80')}
             variant={isTaken === 'true' ? 'default' : 'outline'}
           >
             Taken
