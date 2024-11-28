@@ -66,6 +66,7 @@ export const getManyMembersHandler: RequestHandler<unknown, unknown, unknown, Ge
     // get the current page and limit for the current query
     const page = req.query.page ? parseInt(req.query.page) : 1
     const limit = req.query.limit ? parseInt(req.query.limit) : 10
+    const search = req.query.search ? req.query.search : ''
 
     const asc = req.query.asc ? req.query.asc === 'true' : false
     const active = req.query.active ? req.query.active === 'true' : undefined
@@ -73,7 +74,13 @@ export const getManyMembersHandler: RequestHandler<unknown, unknown, unknown, Ge
     // get the members with the count for the current query
     const [members, totalCount] = await Promise.all([
       findManyMembers(
-        { ...(active && { active }) },
+        {
+          ...(active && { active }),
+          $or: [
+            ...(search.length > 0 ? [{ firstName: { $regex: new RegExp(`^${search}`, 'i') } }] : []),
+            ...(search.length > 0 ? [{ lastName: { $regex: new RegExp(`^${search}`, 'i') } }] : [])
+          ]
+        },
         {
           lean: true,
           limit,

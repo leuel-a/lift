@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express'
 import createHttpError from 'http-errors'
+import type { FilterQuery } from 'mongoose'
+import type { LockerDocument } from '../models/lockers.model'
 
 import logger from '../utils/logger'
 import { findLockerById, findManyLockers, assignLocker, freeLocker } from '../services/lockers.services'
@@ -24,11 +26,13 @@ export const getManyLockerHandler: RequestHandler<
   unknown,
   GetManyLockersType['query']
 > = async (req, res, next) => {
+  const { section, isTaken: qTaken } = req.query
+
   const isTaken =
-    req.query.isTaken === 'true' ? true : req.query.isTaken === 'false' ? false : undefined
+    qTaken === 'true' ? true : qTaken === 'false' ? false : undefined
 
   const lockers = await findManyLockers({
-    ...(req.query.section && { section: req.query.section }),
+    ...(section && { section }),
     ...(isTaken !== undefined && { isTaken }),
   }, { sort: { lockerNumber: 1 } })
   res.status(200).send(lockers)

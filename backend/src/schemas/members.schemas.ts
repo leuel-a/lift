@@ -56,7 +56,8 @@ export const getManyMembersSchema = z.object({
     page: z.string().optional(),
     limit: z.string().optional(),
     active: z.string().optional(),
-    asc: z.string().optional()
+    asc: z.string().optional(),
+    search: z.string().optional()
   })
 })
 
