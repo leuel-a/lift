@@ -6,6 +6,9 @@ import type { Member } from '@/types'
 import type { CreateMemberType } from '../validation/memberSchema'
 import type { MembersResponse, PaginatedResponse } from './apiTypes'
 
+export type SearchMembersResponse = PaginatedResponse<MembersResponse>
+export type SearchPageParam = { page: number; search: string; limit?: number }
+
 /**
  * Fetches a paginated list of members from the API.
  *
@@ -25,6 +28,25 @@ export const fetchMembers: QueryFunction<
   })
 
   return (await apiClient.get<PaginatedResponse<MembersResponse>>(`/members?${searchParams.toString()}`)).data
+}
+
+/**
+ * Searches for members based on the provided criteria.
+ *
+ * @returns - A promise that resolves to a paginated response containing members data.
+ */
+export const searchMembers: QueryFunction<SearchMembersResponse, [string, { search: string }], SearchPageParam> = async (
+  {
+    pageParam
+  }) => {
+  const { page, search, limit } = pageParam
+
+  const searchParams = new URLSearchParams({
+    search,
+    page: page.toString(),
+    ...(limit && { limit: limit.toString() })
+  })
+  return (await apiClient.get<SearchMembersResponse>(`/members?${searchParams.toString()}`)).data
 }
 
 /**

@@ -1,11 +1,11 @@
 require('dotenv').config()
 
-import app from '.'
-import env from './utils/env'
-import { connectDB } from './lib/db'
-import logger from './utils/logger'
-import { seedLockers } from './utils/seedLockers'
-import { countLockers } from './services/lockers.services'
+import app from './src'
+import env from './src/utils/env'
+import { connectDB } from './src/lib/db'
+import logger from './src/utils/logger'
+import { seedLockers } from './src/utils/seedLockers'
+import { countLockers } from './src/services/lockers.services'
 
 const server = app.listen(env.PORT, async () => {
   // connect to db
