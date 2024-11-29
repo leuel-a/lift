@@ -88,7 +88,12 @@ export const getManyMembersHandler: RequestHandler<unknown, unknown, unknown, Ge
           sort: { createdAt: !asc ? -1 : 1 },
         },
       ),
-      countMembers({ ...(active && { active }) }),
+      countMembers({
+        ...(active && { active }), $or: [
+          ...(search.length > 0 ? [{ firstName: { $regex: new RegExp(`^${search}`, 'i') } }] : []),
+          ...(search.length > 0 ? [{ lastName: { $regex: new RegExp(`^${search}`, 'i') } }] : [])
+        ]
+      })
     ])
 
     res.status(200).send({
