@@ -1,145 +1,29 @@
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { AxiosResponse, AxiosError } from 'axios'
-import { useMutation } from '@tanstack/react-query'
-import { zodResolver } from '@hookform/resolvers/zod'
-
-// components
-import {
-  Form,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormField,
-  FormItem,
-} from '@/components/ui/form'
-import { useToast } from '@/hooks/use-toast'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-
-import { ValidationError } from '@/services/apiTypes'
-import logo from './assets/lift-logo.png'
-import {
-  loginUser,
-  LoginResponseError,
-  LoginResponseSuccess,
-} from './services/authService'
-import { LoginUserType, loginUserSchema } from './validation/authSchema'
+import LoginForm from '@/components/login-form.tsx'
+import homePageImg from './assets/undraw_software_engineer_re_tnjc.svg'
+import { Dumbbell } from 'lucide-react'
 
 export default function App() {
-  const { toast } = useToast()
-  const navigate = useNavigate()
-  const form = useForm<LoginUserType>({
-    resolver: zodResolver(loginUserSchema),
-  })
-
-  const { mutate: loginUserMutation, isPending: isLoginUserPending } =
-    useMutation<
-      AxiosResponse<LoginResponseSuccess>,
-      AxiosError<LoginResponseError>,
-      LoginUserType
-    >({
-      mutationFn: loginUser,
-      onSuccess: response => {
-        const {
-          data: { accessToken, refreshToken },
-        } = response
-
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
-
-        toast({
-          variant: 'default',
-          description: 'Login Successful',
-        })
-
-        navigate('/dashboard')
-      },
-      onError: error => {
-        const { response } = error
-        console.log(response)
-
-        // Two different routes -> 1. validation error 2. incorrect credentials
-        if (Array.isArray(response?.data.error)) {
-          response.data.error.forEach((error: ValidationError) => {
-            const path = error.path.split('.')[1]
-
-            form.setError(path as 'email' | 'password', {
-              message: error.message,
-            })
-          })
-        } else {
-          form.setError('root', { message: response?.data.error.message })
-        }
-      },
-    })
-
-  const handleSubmit = (value: LoginUserType) => {
-    loginUserMutation({
-      email: value.email,
-      password: value.password,
-    })
-  }
-
   return (
-    <div className="flex h-screen flex-col items-center justify-center font-epilogue text-rich-black">
-      <div className="mb-6 w-16 rounded-full">
-        <img src={logo} alt="" className="rounded-full" />
-      </div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          className="w-full space-y-6 px-8 md:max-w-[32rem]"
-        >
-          <FormField
-            name="email"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                    className="h-10"
-                    placeholder="leuel.asfaw@gmail.com"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="password"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
-                    className="h-10"
-                    placeholder="enter your password here"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {form.formState.errors.root && (
-            <div className="text-sm text-red-500">
-              {form.formState.errors.root.message}
-            </div>
-          )}
-          <Button disabled={isLoginUserPending} className="h-10 w-full">
-            Login
-          </Button>
-          <p className="text-center text-sm text-gray-500">
-            Please contact your Administrator for any assistance
+    <div className="flex h-screen items-center">
+      <div className="flex h-full flex-1 flex-col justify-center items-center gap-10 bg-indigo-100/20">
+        <div className="max-w-[32rem]">
+          <img className="object-cover" src={homePageImg} alt="Home page image" />
+        </div>
+        <div className="space-y-3 text-center">
+          <h1 className="text-3xl text-indigo-950 font-medium">Your Gym, Perfectly Managed.</h1>
+          <p className="max-w-[70ch] text-sm text-gray-500">
+            Empowering gym owners to streamline operations, track memberships, and create exceptional experiences for
+            every fitness journey.
           </p>
-        </form>
-      </Form>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col items-center">
+        <div className="flex items-center justify-center gap-4">
+          <Dumbbell size={30} />
+          <h1 className="font-epilogue text-2xl tracking-widest text-black">Lift</h1>
+        </div>
+        <LoginForm />
+      </div>
     </div>
   )
 }
