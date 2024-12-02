@@ -64,7 +64,7 @@ export default function Page() {
         <h1 className="text-2xl">Add Member</h1>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 pl-8 mt-4 max-w-[80rem]">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="mt-4 max-w-[80rem] space-y-4 pl-8">
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
             <FormField
               name="firstName"
@@ -134,6 +134,27 @@ export default function Page() {
                       <SelectItem value="monthly">Monthly</SelectItem>
                       <SelectItem value="quarterly">Quarterly</SelectItem>
                       <SelectItem value="yearly">Yearly</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Gender</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Gender" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Male">Male</SelectItem>
+                      <SelectItem value="Female">Female</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

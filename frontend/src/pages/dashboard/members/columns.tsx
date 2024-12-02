@@ -42,10 +42,19 @@ export const columns: ColumnDef<Member>[] = [
   },
   {
     accessorKey: 'active',
-    header: 'Active',
+    header: 'Status',
     cell: ({ row }) => {
       const active = row.getValue('active') as boolean
-      return <div className={cn('inline-flex justify-center text-white px-2 py-1 text-[0.75rem] font-medium rounded-lg',active ? 'bg-indigo-600/70': '')}>{active ? 'Active' : 'In-active'}</div>
+      return (
+        <div
+          className={cn(
+            'inline-flex select-none justify-center rounded-lg px-2 py-1 text-[0.75rem] font-medium text-white',
+            active ? 'bg-indigo-600/90' : '',
+          )}
+        >
+          {active ? 'Active' : 'In-active'}
+        </div>
+      )
     },
   },
 ]

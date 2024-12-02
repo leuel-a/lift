@@ -67,3 +67,4 @@ export const addMember: MutationFunction<
     })
   ).data
 }
+

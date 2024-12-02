@@ -8,10 +8,11 @@ import {
   SidebarMenuButton,
   SidebarHeader,
   SidebarMenuItem,
+  SidebarFooter,
 } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
-import { Link } from 'react-router-dom'
-import { Lock, LayoutDashboardIcon, Users2Icon } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Lock, LayoutDashboardIcon, Users2Icon, LogOut } from 'lucide-react'
 
 const items = [
   {
@@ -34,6 +35,7 @@ const items = [
 export function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const navigate = useNavigate()
   return (
     <Sidebar className="border-l-indigo-950" {...props}>
       <SidebarHeader>
@@ -57,6 +59,22 @@ export function DashboardSidebar({
           </SidebarMenu>
         ))}
       </SidebarContent>
+      <Separator className="bg-indigo-950" />
+      <SidebarFooter className="mb-8">
+        <SidebarMenu>
+          <SidebarMenuButton
+            onClick={() => {
+              localStorage.removeItem('accessToken')
+              localStorage.removeItem('refreshToken')
+
+              return navigate('/')
+            }}
+          >
+            <LogOut />
+            <span>Logout</span>
+          </SidebarMenuButton>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

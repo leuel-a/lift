@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from 'react'
 import { useDebounce } from '@/hooks/use-debounce'
+import { useState, useRef, useCallback } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { searchMembers } from '@/services/membersService'
 
