@@ -6,6 +6,7 @@ import { connectDB } from './src/lib/db'
 import logger from './src/utils/logger'
 import { seedLockers } from './src/utils/seedLockers'
 import { countLockers } from './src/services/lockers.services'
+import { lockersInUseJob } from './src/jobs/lockers.jobs'
 
 const server = app.listen(env.PORT, async () => {
   // connect to db
@@ -21,6 +22,9 @@ const server = app.listen(env.PORT, async () => {
       process.exit(1)
     }
   }
+
+  // start jobs
+  lockersInUseJob.start()
 
   logger.info(`Server running on port ${env.PORT}`)
 })
