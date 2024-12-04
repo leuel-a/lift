@@ -1,23 +1,23 @@
 import _ from 'lodash'
 import createHttpError from 'http-errors'
-import { Request, Response, NextFunction } from 'express'
+import type { Request, Response, NextFunction } from 'express'
 
-import { hashPassword, validatePassword } from '../utils/password'
-import { createUser, findUser } from '../services/users.services'
-import type { LoginUserType, RegisterUserType } from '../schemas/auth.schemas'
 import { signJwt } from '../utils/jwt'
+import { createUser, findUser } from '../services/users.services'
+import { hashPassword, validatePassword } from '../utils/password'
+import type { LoginUserType, RegisterUserType } from '../schemas/users.schemas'
 
 export const registerUserHandler = async (
   req: Request<unknown, unknown, RegisterUserType['body']>,
   res: Response,
   next: NextFunction,
 ) => {
-  const { email, password } = req.body
+  const { email, password, role, firstName, lastName, phoneNumber } = req.body
   const passwordHash = await hashPassword(password)
 
   try {
-    const user = await createUser({ email, password: passwordHash })
-    res.status(201).send(_.omit(user.toJSON(), ['password']))
+    const user = await createUser({ email, password: passwordHash, role, firstName, lastName, phoneNumber })
+    res.status(201).send(_.omit(user.toJSON(), ['password', 'role']))
   } catch (error) {
     next(error)
   }
@@ -56,3 +56,4 @@ export const loginUserHandler = async (
 export const getAuthenticatedUserHandler = (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json(_.omit(req.user, ['password']))
 }
+

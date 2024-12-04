@@ -12,6 +12,7 @@
     "strictFunctionTypes": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": ["src/**/*", "server.ts"],
 }

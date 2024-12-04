@@ -6,6 +6,7 @@ export interface IUser {
   gender?: string
   phoneNumber?: string
   email: string
+  role: string
   password: string
 }
 
@@ -40,6 +41,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ['admin', 'employee']
+  }
 })
 
 const UserModel = mongoose.model<UserDocument>('User', UserSchema)

@@ -5,13 +5,14 @@ import {
   getMemberSchema,
   updateMemberSchema,
 } from './schemas/members.schemas'
-import { registerUserSchema, loginUserSchema } from './schemas/auth.schemas'
+import { registerUserSchema, loginUserSchema, updateUserSchema } from './schemas/users.schemas'
 import validateResource from './middlewares/validateResource'
 import {
   registerUserHandler,
   loginUserHandler,
   getAuthenticatedUserHandler,
 } from './handlers/auth.handlers'
+import { updateUserHandler } from './handlers/users.handlers'
 import passport from 'passport'
 import {
   createMemberHandler,
@@ -31,18 +32,27 @@ import {
   getManyLockersSchema,
   getSingleLockerSchema
 } from './schemas/lockers.schemas'
+import { requireAdmin } from './middlewares/requireAdmin'
+import { getMembersByMonthSchema } from './schemas/analytics.schemas'
+import { getMembersByMonthHandler } from './handlers/analytics.handlers'
 
 const router = Router()
 
 //#region auth routes
-router.post('/auth/register', validateResource(registerUserSchema), registerUserHandler)
+router.post('/auth/register', validateResource(registerUserSchema), passport.authenticate('jwt', { session: false }), requireAdmin, registerUserHandler)
 router.post('/auth/login', validateResource(loginUserSchema), loginUserHandler)
 router.get(
   '/auth/me',
   passport.authenticate('jwt', { session: false }),
   getAuthenticatedUserHandler,
 )
+
 //#endregion
+
+//region users routes
+router.put('/users/:id', validateResource(updateUserSchema), passport.authenticate('jwt', { session: false }), requireAdmin, updateUserHandler)
+
+//endregion
 
 //#region members routes
 router.post(
@@ -69,6 +79,7 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   updateMemberHandler,
 )
+
 //#endregion
 
 //#region lockers routes
@@ -86,6 +97,12 @@ router.put(
 )
 router.get('/lockers/:id', validateResource(getSingleLockerSchema), passport.authenticate('jwt', { session: false }), getSingleLockerHandler)
 router.put('/lockers/:id/free', validateResource(freeLockerSchema), passport.authenticate('jwt', { session: false }), freeLockerHandler)
+
 //#endregion
+
+//region analytics routes
+router.get('/analytics/members/:year', validateResource(getMembersByMonthSchema), passport.authenticate('jwt', { session: false }), getMembersByMonthHandler)
+
+//endregion
 
 export default router

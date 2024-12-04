@@ -12,7 +12,7 @@ const options: StrategyOptionsWithoutRequest = {
 passport.use(
   new JwtStrategy(options, async (payload, done) => {
     try {
-      const user = await findUserById(payload.sub as string)
+      const user = await findUserById(payload.sub as string, { lean: true })
       if (!user) {
         done(null, false)
         return
