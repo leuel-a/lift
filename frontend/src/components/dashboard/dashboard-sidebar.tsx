@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Dumbbell } from 'lucide-react'
+import { useAuth } from '@/hooks/use-auth'
 
 import {
   Sidebar,
@@ -9,10 +10,13 @@ import {
   SidebarHeader,
   SidebarMenuItem,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
 } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
 import { Link, useNavigate } from 'react-router-dom'
-import { Lock, LayoutDashboardIcon, Users2Icon, LogOut } from 'lucide-react'
+import { Lock, LayoutDashboardIcon, Users2Icon, User, LogOut, Settings } from 'lucide-react'
 
 const items = [
   {
@@ -32,10 +36,20 @@ const items = [
   },
 ]
 
+const adminItems = [
+  {
+    title: 'Users',
+    url: '/dashboard/users',
+    icon: User,
+  },
+]
+
 export function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useAuth()
   const navigate = useNavigate()
+
   return (
     <Sidebar className="border-l-indigo-950" {...props}>
       <SidebarHeader>
@@ -47,7 +61,7 @@ export function DashboardSidebar({
       <Separator className="bg-indigo-950" />
       <SidebarContent className="mt-4">
         {items.map(item => (
-          <SidebarMenu>
+          <SidebarMenu key={item.title}>
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
                 <Link to={item.url}>
@@ -58,10 +72,40 @@ export function DashboardSidebar({
             </SidebarMenuItem>
           </SidebarMenu>
         ))}
+        {/* Admin Menu Group */}
+        {user && user.role === 'admin' && (
+          <SidebarGroup className="mt-8">
+            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <Separator />
+            <SidebarGroupContent className="mt-2">
+              {adminItems.map(item => (
+                <SidebarMenu key={item.title}>
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              ))}
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <Separator className="bg-indigo-950" />
       <SidebarFooter className="mb-8">
         <SidebarMenu>
+          <SidebarMenuButton asChild>
+            <Link to="/dashboard/settings">
+              <Settings />
+              <span>Settings</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenu>
+        <SidebarMenu>
+          {/*TODO: use the same logic in next-auth to abstract the logout functionality to a hook (the useAuth hook)*/}
           <SidebarMenuButton
             onClick={() => {
               localStorage.removeItem('accessToken')

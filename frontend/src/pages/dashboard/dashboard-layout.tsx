@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/use-auth'
-import { useToast } from '@/hooks/use-toast'
 
 // components
 import { Outlet, Navigate } from 'react-router-dom'
@@ -7,16 +6,18 @@ import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar'
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 
 export default function DashboardLayout() {
-  const { toast } = useToast()
   const { user, isError, isLoading } = useAuth()
 
   if (isError || (!isLoading && !user)) {
-    toast({ description: 'You must log in to access the dashboard', variant: 'destructive' })
     return <Navigate to="/" />
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-16 w-16 animate-spin rounded-full border-4 border-dashed border-indigo-600"></div>
+      </div>
+    )
   }
 
   return (

@@ -1,6 +1,10 @@
 export interface User {
   _id: string
   email: string
+  role: string
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
 }
 
 export interface Member {

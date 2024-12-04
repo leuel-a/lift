@@ -5,6 +5,7 @@ import { fetchLockers } from '@/services/lockersService.ts'
 
 // component imports
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import LockersGrid from '@/components/dashboard/lockers/lockers-grid.tsx'
 import SectionSelector from '@/components/dashboard/lockers/section-selector.tsx'
 
@@ -14,7 +15,7 @@ export default function Page() {
   const isTaken = searchParams.get('isTaken') || ''
   const section = searchParams.get('section') || 'Male'
 
-  const { data: lockers } = useQuery({
+  const { data: lockers, isLoading: isLockersLoading } = useQuery({
     queryKey: ['getLockers', { section, isTaken }],
     queryFn: fetchLockers,
   })
@@ -68,6 +69,13 @@ export default function Page() {
         </div>
       </div>
       {lockers && <LockersGrid lockers={lockers} />}
+      {isLockersLoading && (
+        <div className="grid grid-cols-3 gap-x-4 gap-y-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+          {Array.from({ length: 50 }).map(() => {
+            return <Skeleton className="h-20 lg:h-24" />
+          })}
+        </div>
+      )}
     </main>
   )
 }

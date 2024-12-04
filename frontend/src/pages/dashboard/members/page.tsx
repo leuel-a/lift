@@ -17,9 +17,12 @@ export default function Page() {
     queryFn: fetchMembers,
   })
 
-  // TODO: change the logic to return the data if the members is not there
   if (isMembersLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="h-16 w-16 animate-spin rounded-full border-4 border-dashed border-indigo-600"></div>
+      </div>
+    )
   }
 
   return (

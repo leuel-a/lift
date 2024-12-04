@@ -31,8 +31,6 @@ export const fetchLockers: QueryFunction<
     ...(section && { section }),
     ...(isTaken && { isTaken }),
   })
-  console.log(`/lockers?${searchParams.toString()}`)
-
   return (await apiClient.get<GetManyLockersResponse>(`/lockers?${searchParams.toString()}`)).data
 }
 

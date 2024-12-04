@@ -15,7 +15,7 @@ export const loginUser = (credentials: LoginUserType): Promise<AxiosResponse<Log
  * @returns A promise that resolves to the authenticated user's data.
  */
 export const getAuthenticatedUser: QueryFunction<User, [string]> = async () => {
-  return (await apiClient.get('/auth/me')).data
+  return (await apiClient.get<User>('/auth/me')).data
 }
 export interface LoginResponseSuccess {
   accessToken: string
