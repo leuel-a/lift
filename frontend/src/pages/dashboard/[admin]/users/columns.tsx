@@ -1,3 +1,4 @@
+import { format, parseISO } from 'date-fns'
 import { ColumnDef } from '@tanstack/react-table'
 
 // components and types
@@ -36,11 +37,24 @@ export const columns: ColumnDef<User>[] = [
       const Admin = (
         <div className="w-fit rounded-lg border border-indigo-950 bg-indigo-500 p-2 py-1 text-white">Admin</div>
       )
-      const Employee = <div className="w-fit rounded-lg border border-lime-950 p-2 py-1 bg-gray-200">Employee</div>
+      const Employee = <div className="w-fit rounded-lg border border-lime-950 bg-gray-200 p-2 py-1">Employee</div>
 
       return (
         <div className="flex items-center justify-center">{row.getValue('role') === 'admin' ? Admin : Employee}</div>
       )
+    },
+  },
+  {
+    accessorKey: 'lastLogin',
+    header: 'Last Login',
+    cell: ({ row }) => {
+      const lastLogin = row.getValue('lastLogin') as string
+      if (!lastLogin) {
+        return <div className="text-yellow-700">User has not logged in yet</div>
+      }
+
+      const lastLoginDate = parseISO(lastLogin)
+      return format(lastLoginDate, 'PPPpp')
     },
   },
 ]
