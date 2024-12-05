@@ -3,14 +3,16 @@ import { format } from 'date-fns'
 import { ColumnDef } from '@tanstack/react-table'
 
 // components and types
-import { Member } from '@/types'
+import { type Member } from '@/types'
 import { Checkbox } from '@/components/ui/checkbox'
 
 export const columns: ColumnDef<Member>[] = [
   {
     id: 'select',
     cell: ({ row }) => (
-      <Checkbox checked={row.getIsSelected()} onCheckedChange={value => row.toggleSelected(!!value)} />
+      <div className="flex items-center justify-center">
+        <Checkbox checked={row.getIsSelected()} onCheckedChange={value => row.toggleSelected(!!value)} />
+      </div>
     ),
     enableSorting: true,
     enableHiding: true,

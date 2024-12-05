@@ -12,6 +12,7 @@ import DashboardHome from './pages/dashboard/home/page.tsx'
 import LockersPage from './pages/dashboard/lockers/page.tsx'
 import MembersPage from './pages/dashboard/members/page.tsx'
 import AddMemberPage from './pages/dashboard/members/add/page.tsx'
+import AddUserPage from './pages/dashboard/[admin]/users/add/page'
 import UsersPage from './pages/dashboard/[admin]/users/page.tsx'
 import DashboardLayout from './pages/dashboard/dashboard-layout.tsx'
 import SettingsPage from '@/pages/dashboard/settings/page.tsx'
@@ -43,12 +44,16 @@ const router = createBrowserRouter([
       },
       {
         path: 'settings',
-        element: <SettingsPage/>,
+        element: <SettingsPage />,
       },
       {
         path: 'users',
-        element: <UsersPage/>
-      }
+        element: <UsersPage />,
+      },
+      {
+        path: 'users/add',
+        element: <AddUserPage />,
+      },
     ],
   },
 ])

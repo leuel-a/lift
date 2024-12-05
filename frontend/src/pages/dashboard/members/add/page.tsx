@@ -9,27 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createMemberSchema, CreateMemberType } from '@/validation/memberSchema'
 
 //region component imports
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon, Undo2 } from 'lucide-react'
@@ -42,6 +25,7 @@ export default function Page() {
     resolver: zodResolver(createMemberSchema),
   })
   const { mutate } = useMutation({
+    mutationKey: ['addMember'],
     mutationFn: addMember,
     onSuccess: () => {
       toast({ description: 'Member added successfully' })

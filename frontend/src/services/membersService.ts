@@ -12,6 +12,7 @@ export type SearchPageParam = { page: number; search: string; limit?: number }
 /**
  * Fetches a paginated list of members from the API.
  *
+ * @param context - The query current query context
  * @returns - A promise that resolves to a paginated response containing members data.
  */
 export const fetchMembers: QueryFunction<

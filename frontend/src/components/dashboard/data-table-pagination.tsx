@@ -1,7 +1,6 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -9,19 +8,19 @@ import {
 } from '@/components/ui/pagination'
 import { Dispatch, SetStateAction } from 'react'
 
-interface MembersPaginationProps {
+interface DataTablePaginationProps {
   limit: number
   page: number
   total: number
   setPage: Dispatch<SetStateAction<number>>
 }
 
-export default function MembersPagination({
-  page,
-  total,
-  limit,
-  setPage,
-}: MembersPaginationProps) {
+export default function DataTablePagination({
+                                            page,
+                                            total,
+                                            limit,
+                                            setPage,
+                                          }: DataTablePaginationProps) {
   const previousPage = page - 1 > 0 ? page - 1 : undefined
   const nextPage = total / limit - page > 0 ? page + 1 : undefined
 
