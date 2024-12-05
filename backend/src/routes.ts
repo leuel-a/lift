@@ -12,7 +12,7 @@ import {
   loginUserHandler,
   getAuthenticatedUserHandler,
 } from './handlers/auth.handlers'
-import { updateUserHandler } from './handlers/users.handlers'
+import { updateUserHandler, getManyUsersHandler } from './handlers/users.handlers'
 import passport from 'passport'
 import {
   createMemberHandler,
@@ -50,6 +50,7 @@ router.get(
 //#endregion
 
 //region users routes
+router.get('/users', passport.authenticate('jwt', { session: false }), requireAdmin, getManyUsersHandler)
 router.put('/users/:id', validateResource(updateUserSchema), passport.authenticate('jwt', { session: false }), requireAdmin, updateUserHandler)
 
 //endregion

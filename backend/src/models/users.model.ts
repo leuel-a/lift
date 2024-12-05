@@ -11,6 +11,7 @@ export interface IUser {
 }
 
 export interface UserDocument extends IUser, Document {
+  _id: string
   createdAt: Date
   updatedAt: Date
 }

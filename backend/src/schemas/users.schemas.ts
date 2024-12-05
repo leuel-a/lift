@@ -32,6 +32,15 @@ export const loginUserSchema = z.object({
   })
 })
 
+export const getManyUsersSchema = z.object({
+  params: z.object({
+    page: z.string().optional(),
+    limit: z.string().optional(),
+    search: z.string().optional(),
+  })
+})
+
 export type LoginUserType = z.infer<typeof loginUserSchema>
 export type UpdateUserType = z.infer<typeof updateUserSchema>
+export type GetManyUsersType = z.infer<typeof getManyUsersSchema>
 export type RegisterUserType = z.infer<typeof registerUserSchema>
