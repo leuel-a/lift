@@ -15,6 +15,7 @@ export const registerUserSchema = z.object({
     .string({ message: 'Password is required' })
     .min(8, { message: 'Password must be a minimum of 8 characters' }),
   phoneNumber: z.string({ message: 'Phone number is required' }),
+  role: z.enum(['admin', 'employee'], { message: 'Role is required' }),
 })
 
 export type LoginUserType = z.infer<typeof loginUserSchema>

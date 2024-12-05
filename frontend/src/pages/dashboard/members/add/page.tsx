@@ -178,7 +178,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <Button className="w-96 bg-indigo-600 hover:bg-indigo-700/90">Submit</Button>
+            <Button className="w-full lg:w-96 bg-indigo-600 hover:bg-indigo-700/90">Submit</Button>
           </div>
         </form>
       </Form>
