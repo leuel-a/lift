@@ -8,6 +8,8 @@ export const getManyUsersHandler: RequestHandler<unknown, unknown, unknown, GetM
     const search = req.query.search ? req.query.search : ''
     const page = req.query.page ? parseInt(req.query.page) : 1
     const limit = req.query.limit ? parseInt(req.query.limit) : 10
+
+    // custom query for the current request, TODO: check if needs to be typed
     const query = {
       $or: [
         ...(search.length > 0 ? [{ firstName: { $regex: new RegExp(`^${search}`) } }] : []),
@@ -16,18 +18,14 @@ export const getManyUsersHandler: RequestHandler<unknown, unknown, unknown, GetM
     }
 
     const [users, totalCount] = await Promise.all([
-      findManyUsers({
-        ...query
-      }, {
-        lean: true,
-        limit,
-        skip: (page - 1) * limit
+      findManyUsers({ ...query }, {
+        lean: true, limit, skip: (page - 1) * limit
       }),
       countUsers({ ...query })
     ])
 
     res.status(200).send({
-      data: users,
+      data: _.map(users, user => _.omit(user, ['password', '__v'])),
       page,
       limit,
       totalCount

@@ -8,6 +8,7 @@ export interface IUser {
   email: string
   role: string
   password: string
+  lastLogin?: Date
 }
 
 export interface UserDocument extends IUser, Document {
@@ -45,6 +46,10 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['admin', 'employee']
+  },
+  lastLogin: {
+    type: Date,
+    required: false
   }
 })
 

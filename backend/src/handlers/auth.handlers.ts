@@ -29,7 +29,7 @@ export const loginUserHandler = async (
   next: NextFunction,
 ) => {
   const { email, password } = req.body
-  const user = await findUser({ email })
+  const user = await findUser({ email }, {lean: false})
 
   if (!user) {
     next(createHttpError(400, 'Email or Password not correct'))
@@ -46,6 +46,9 @@ export const loginUserHandler = async (
     sub: user._id,
     email: user.email,
   }
+
+  user.lastLogin = new Date()
+  await user.save()
 
   const accessToken = signJwt(payload, 'accessToken')
   const refreshToken = signJwt(payload, 'refreshToken')

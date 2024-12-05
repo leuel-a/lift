@@ -1,19 +1,17 @@
+import passport from 'passport'
 import { Router } from 'express'
-import {
-  createMemberSchema,
-  getManyMembersSchema,
-  getMemberSchema,
-  updateMemberSchema,
-} from './schemas/members.schemas'
-import { registerUserSchema, loginUserSchema, updateUserSchema } from './schemas/users.schemas'
+
+//region middlewares
+import { requireAdmin } from './middlewares/requireAdmin'
 import validateResource from './middlewares/validateResource'
+//endregion
+
+//region handlers
 import {
   registerUserHandler,
   loginUserHandler,
   getAuthenticatedUserHandler,
 } from './handlers/auth.handlers'
-import { updateUserHandler, getManyUsersHandler } from './handlers/users.handlers'
-import passport from 'passport'
 import {
   createMemberHandler,
   getManyMembersHandler,
@@ -26,15 +24,26 @@ import {
   getManyLockerHandler,
   getSingleLockerHandler
 } from './handlers/lockers.handlers'
+import { getMembersByMonthHandler } from './handlers/analytics.handlers'
+import { updateUserHandler, getManyUsersHandler } from './handlers/users.handlers'
+//endregion
+
+//region schemas
+import {
+  createMemberSchema,
+  getManyMembersSchema,
+  getMemberSchema,
+  updateMemberSchema
+} from './schemas/members.schemas'
 import {
   freeLockerSchema,
   assignLockerSchema,
   getManyLockersSchema,
   getSingleLockerSchema
 } from './schemas/lockers.schemas'
-import { requireAdmin } from './middlewares/requireAdmin'
 import { getMembersByMonthSchema } from './schemas/analytics.schemas'
-import { getMembersByMonthHandler } from './handlers/analytics.handlers'
+import { registerUserSchema, loginUserSchema, updateUserSchema } from './schemas/users.schemas'
+//endregion schemas
 
 const router = Router()
 
