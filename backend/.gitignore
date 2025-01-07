@@ -1,7 +1,0 @@
-node_modules
-.env
-
-*.log
-dist
-
-kill_port_5000.sh
