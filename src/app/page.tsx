@@ -1,3 +1,11 @@
+import Link from 'next/link';
+
 export default function Page() {
-  return <div>Hello World</div>
+  return (
+    <div className="">
+      <Link className="" href="/auth/login">
+        Login
+      </Link>
+    </div>
+  );
 }
